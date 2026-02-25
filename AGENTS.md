@@ -1,18 +1,61 @@
 # AGENTS.md — Instructions for AI Agents
 
+## FIRST: Read These Files in Order
+
+1. **This file** (AGENTS.md) — project principles and architecture
+2. **[LEARNINGS.md](LEARNINGS.md)** — shared knowledge from all prior agents (READ THE WHOLE THING)
+3. **[ROADMAP.md](ROADMAP.md)** — current progress, find what needs doing
+4. **[workflows/](workflows/)** — step-by-step instructions for your specific phase
+
+## LAST: Before You Finish
+
+1. Update **[ROADMAP.md](ROADMAP.md)** — mark your checklist items done
+2. Add an entry to **[LEARNINGS.md](LEARNINGS.md)** — what you did, what you learned, what went wrong
+3. Commit your changes
+
+These are not optional. The learnings journal is how agents communicate
+across sessions. If you skip it, the next agent starts blind.
+
+---
+
 ## Project Overview
 
 This is **tidy-oxide**: an incremental Rust rewrite of [HTML Tidy](https://github.com/htacg/tidy-html5) (tidy-html5), a ~58,000-line C library/tool for parsing, validating, cleaning, and pretty-printing HTML.
 
 The approach: use the existing C implementation as a **black-box oracle** for correctness, and replace modules one at a time with Rust. The C binary is always the ground truth — if the Rust code produces different output for the same input, the Rust code is wrong unless explicitly documented otherwise.
 
+## How to Execute a Phase
+
+1. Check [ROADMAP.md](ROADMAP.md) to find the next phase to work on
+2. Open the corresponding workflow file in [workflows/](workflows/):
+   - `workflows/phase-0-build-infra.md`
+   - `workflows/phase-1-entities.md`
+   - `workflows/phase-2-tmbstr.md`
+   - `workflows/phase-3-utf8.md`
+   - `workflows/phase-4-attrdict-tags.md`
+   - `workflows/phase-5-config-messages.md`
+   - `workflows/phase-6-io.md`
+3. Follow the workflow step by step
+4. Update ROADMAP.md and LEARNINGS.md when done
+
 ## Repository Structure
 
 ```
 tidy-oxide/
 ├── AGENTS.md              # THIS FILE — read first
-├── PLAN.md                # Phased implementation plan with status
+├── LEARNINGS.md           # Shared knowledge journal (read + write!)
+├── ROADMAP.md             # Progress tracker with checklists
+├── PLAN.md                # Detailed technical plan
 ├── README.md              # Project overview and motivation
+│
+├── workflows/             # Step-by-step phase execution guides
+│   ├── phase-0-build-infra.md
+│   ├── phase-1-entities.md
+│   ├── phase-2-tmbstr.md
+│   ├── phase-3-utf8.md
+│   ├── phase-4-attrdict-tags.md
+│   ├── phase-5-config-messages.md
+│   └── phase-6-io.md
 │
 ├── reference/             # READONLY snapshot of tidy-html5 C source
 │   ├── src/               # C source files (DO NOT MODIFY)
@@ -165,8 +208,17 @@ and the project is pure Rust with a C API shim.
 
 ## Working on a Phase
 
-When you are assigned a phase (e.g., "Phase 1: entities.c"), follow
-this workflow:
+When you are assigned a phase (e.g., "Phase 1: entities.c"):
+
+### 0. Before anything else
+
+1. Read **[LEARNINGS.md](LEARNINGS.md)** — the whole file
+2. Open the workflow file for your phase in **[workflows/](workflows/)**
+3. Mark the phase as `[~]` in progress in **[ROADMAP.md](ROADMAP.md)**
+4. Follow the workflow step by step
+
+The workflow files have detailed, phase-specific instructions. The
+general pattern is below for reference.
 
 ### Step 1: Read the C Source
 
@@ -212,10 +264,11 @@ will call.
 3. Run all 402 regression tests against the hybrid binary
 4. Fix any failures
 
-### Step 6: Update PLAN.md
+### Step 6: Update Progress
 
-Mark the phase as complete, note any divergences or issues found,
-update the date.
+1. Mark checklist items `[x]` in **[ROADMAP.md](ROADMAP.md)**
+2. Add a journal entry to **[LEARNINGS.md](LEARNINGS.md)** using the template
+3. Commit all changes
 
 ## Common Pitfalls
 
